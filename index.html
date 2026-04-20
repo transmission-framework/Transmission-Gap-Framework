@@ -1,36 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transmission Gap Framework</title>
-  <style>
-    body {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      font-family: system-ui, sans-serif;
-      background: #ffffff;
-      color: #1a1a1a;
-    }
-    :root {
-      --color-background-primary: #ffffff;
-      --color-background-secondary: #f5f5f3;
-      --color-text-primary: #1a1a1a;
-      --color-text-secondary: #6b6b6b;
-      --color-text-tertiary: #999999;
-      --color-border-tertiary: rgba(0,0,0,0.12);
-      --color-border-secondary: rgba(0,0,0,0.20);
-      --color-border-primary: rgba(0,0,0,0.35);
-      --color-text-info: #0C447C;
-      --color-background-info: #E6F1FB;
-      --border-radius-md: 8px;
-      --border-radius-lg: 12px;
-      --font-sans: system-ui, sans-serif;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transmission Gap Framework</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#ffffff;color:#1a1a1a;max-width:780px;margin:0 auto;padding:2rem 1.5rem}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0 12px;border-bottom:0.5px solid rgba(0,0,0,0.12);margin-bottom:1.5rem}
+.nav-brand{font-size:15px;font-weight:500;color:#1a1a1a}
+.nav-sub{font-size:12px;color:#999;margin-top:2px}
+.nav-links{display:flex;gap:20px}
+.nav-links a{font-size:13px;color:#6b6b6b;text-decoration:none;cursor:pointer}
+.nav-links a.active{color:#1a1a1a;font-weight:500}
+.hero-label{font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.hero-title{font-size:22px;font-weight:500;color:#1a1a1a;line-height:1.3;margin-bottom:8px}
+.hero-sub{font-size:14px;color:#6b6b6b;line-height:1.6;margin-bottom:1.5rem;max-width:560px}
+.sector-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center}
+.sector-label{font-size:11px;color:#999;margin-right:4px;white-space:nowrap}
+.chip{padding:5px 12px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.20);background:#ffffff;font-size:12px;font-weight:500;cursor:pointer;color:#6b6b6b;transition:all 0.12s}
+.chip.active{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+.chip.pending{opacity:0.4;cursor:default}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem}
+.metric{background:#f5f5f3;border-radius:8px;padding:14px 16px}
+.metric-label{font-size:11px;color:#6b6b6b;line-height:1.4;margin-bottom:6px}
+.metric-value{font-size:22px;font-weight:500}
+.metric-value.red{color:#A32D2D}
+.metric-value.amber{color:#854F0B}
+.metric-value.neutral{color:#1a1a1a}
+.metric-sub{font-size:11px;color:#999;margin-top:3px}
+.chart-card{background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.chart-title{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:3px}
+.chart-sub{font-size:11px;color:#999;margin-bottom:1rem}
+.update-badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;background:#E1F5EE;color:#085041;margin-left:8px;vertical-align:middle}
+.context-pill{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;background:#E6F1FB;color:#0C447C;margin-left:6px;vertical-align:middle}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.plain-card{background:#ffffff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.plain-title{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:12px}
+.audience-tabs{display:flex;gap:6px;margin-bottom:12px}
+.aud-btn{padding:4px 10px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.20);background:#f5f5f3;font-size:11px;cursor:pointer;color:#6b6b6b}
+.aud-btn.active{background:#ffffff;border-color:rgba(0,0,0,0.35);color:#1a1a1a;font-weight:500}
+.finding-text{font-size:13px;color:#1a1a1a;line-height:1.7}
+.gap-bar-wrap{margin:10px 0}
+.gap-bar-label{display:flex;justify-content:space-between;font-size:11px;color:#6b6b6b;margin-bottom:4px}
+.gap-bar-track{height:8px;background:#f5f5f3;border-radius:4px;overflow:hidden}
+.gap-bar-fill{height:100%;border-radius:4px}
+.ask-btn{width:100%;padding:9px 14px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.20);background:#f5f5f3;font-size:12px;cursor:pointer;color:#185FA5;text-align:left;margin-top:10px}
+.ask-btn:hover{background:#ffffff}
+.footnote{font-size:11px;color:#999;line-height:1.6;padding-top:12px;border-top:0.5px solid rgba(0,0,0,0.12);margin-top:1rem}
+.legend-row{display:flex;gap:16px;margin-bottom:8px;font-size:11px;color:#6b6b6b}
+.legend-sq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+.legend-line{width:10px;height:3px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+</style>
 </head>
 <body>
-  <!-- PASTE THE MOCKUP HTML HERE -->
+
+<div class="nav">
+  <div>
+    <div class="nav-brand">Transmission Gap Framework</div>
+    <div class="nav-sub">India export sectors · labour institution performance</div>
+  </div>
+  <div class="nav-links">
+    <a class="active">tracker</a>
+    <a>methodology</a>
+    <a>about</a>
+    <a>data</a>
+  </div>
+</div>
+
+<div class="hero-label">Research question</div>
+<div class="hero-title">Are India's domestic labour institutions transmitting export gains to workers?</div>
+<div class="hero-sub">For every rupee of export-driven growth in India's labour-intensive manufacturing sectors, how much reaches the workers who created it? Calculated sector by sector, updated annually using Annual Survey of Industries microdata.</div>
+
+<div class="sector-row">
+  <span class="sector-label">Select sector</span>
+  <div class="chip active" onclick="setSector(this,'gems')">Gems &amp; jewellery</div>
+  <div class="chip pending">Textiles &amp; apparel</div>
+  <div class="chip pending">Leather &amp; footwear</div>
+  <div class="chip pending">Marine products</div>
+  <div class="chip pending">Pharmaceuticals</div>
+</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-label">Labour share — baseline year</div>
+    <div class="metric-value neutral" id="m-base">43.1%</div>
+    <div class="metric-sub" id="m-base-sub">2021–22 pre-growth baseline</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Labour share — latest year</div>
+    <div class="metric-value red" id="m-latest">40.8%</div>
+    <div class="metric-sub">2023–24 (ASI latest)</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Real wage change</div>
+    <div class="metric-value red">−5.9%</div>
+    <div class="metric-sub">After CPI-IW inflation adjustment</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Transmission gap</div>
+    <div class="metric-value amber">−8.8 pp</div>
+    <div class="metric-sub">34.3% marginal vs 43.1% baseline</div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Labour share of gross value added <span class="update-badge">ASI 2023–24</span> <span class="context-pill">Export growth context: CEPA 2022</span></div>
+  <div class="chart-sub">What share of every rupee created by this sector reached workers as wages? Lower is worse for workers. The dotted line shows the pre-growth baseline.</div>
+  <div class="legend-row">
+    <span><span class="legend-sq" style="background:#1D9E75"></span>Labour share</span>
+    <span><span class="legend-line" style="background:#E24B4A"></span>Pre-growth baseline</span>
+  </div>
+  <div style="position:relative;width:100%;height:200px">
+    <canvas id="shareChart" role="img" aria-label="Line chart showing labour share fell from 43.1% to 40.8%">Labour share fell from 43.1% in 2021–22 to 40.8% in 2023–24.</canvas>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="chart-card" style="margin-bottom:0">
+    <div class="chart-title">Nominal vs real wage growth</div>
+    <div class="chart-sub">Wages look like they rose — until inflation is applied.</div>
+    <div class="legend-row">
+      <span><span class="legend-sq" style="background:#1D9E75"></span>Nominal</span>
+      <span><span class="legend-sq" style="background:#E24B4A"></span>Real</span>
+    </div>
+    <div style="position:relative;width:100%;height:160px">
+      <canvas id="wageChart" role="img" aria-label="Nominal wages rose 4.3%, real wages fell 5.9%">Nominal +4.3%, Real -5.9%.</canvas>
+    </div>
+  </div>
+  <div class="chart-card" style="margin-bottom:0">
+    <div class="chart-title">Who captured the extra value?</div>
+    <div class="chart-sub">Of Rs 7,108 cr in new value created during export growth period.</div>
+    <div class="legend-row">
+      <span><span class="legend-sq" style="background:#1D9E75"></span>Workers 34.3%</span>
+      <span><span class="legend-sq" style="background:#D3D1C7"></span>Capital 65.7%</span>
+    </div>
+    <div style="position:relative;width:100%;height:160px">
+      <canvas id="splitChart" role="img" aria-label="Workers 34.3%, Capital 65.7%">Workers: 34.3%. Capital: 65.7%.</canvas>
+    </div>
+  </div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Sector comparison — transmission gap <span style="font-size:11px;font-weight:400;color:#999">(pp below pre-growth baseline)</span></div>
+  <div class="chart-sub">Larger bar = larger gap between what workers received and their pre-growth baseline share. Greyed sectors are pending calculation.</div>
+  <div class="gap-bar-wrap">
+    <div class="gap-bar-label"><span>Gems &amp; jewellery (NIC 3211) — 2021–24</span><span style="color:#A32D2D;font-weight:500">−8.8 pp</span></div>
+    <div class="gap-bar-track"><div class="gap-bar-fill" style="width:88%;background:#E24B4A"></div></div>
+  </div>
+  <div class="gap-bar-wrap" style="opacity:0.35">
+    <div class="gap-bar-label"><span>Textiles &amp; apparel (NIC 131x–141x)</span><span>pending</span></div>
+    <div class="gap-bar-track"><div class="gap-bar-fill" style="width:0%"></div></div>
+  </div>
+  <div class="gap-bar-wrap" style="opacity:0.35">
+    <div class="gap-bar-label"><span>Leather &amp; footwear (NIC 151x)</span><span>pending</span></div>
+    <div class="gap-bar-track"><div class="gap-bar-fill" style="width:0%"></div></div>
+  </div>
+  <div class="gap-bar-wrap" style="opacity:0.35">
+    <div class="gap-bar-label"><span>Marine products (NIC 1020)</span><span>pending</span></div>
+    <div class="gap-bar-track"><div class="gap-bar-fill" style="width:0%"></div></div>
+  </div>
+  <div class="gap-bar-wrap" style="opacity:0.35">
+    <div class="gap-bar-label"><span>Pharmaceuticals (NIC 2100)</span><span>pending</span></div>
+    <div class="gap-bar-track"><div class="gap-bar-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="plain-card">
+  <div class="plain-title">Plain English — what does this mean?</div>
+  <div class="audience-tabs">
+    <button class="aud-btn active" onclick="setAudience(this,'policy')">For policymakers</button>
+    <button class="aud-btn" onclick="setAudience(this,'press')">For journalists</button>
+    <button class="aud-btn" onclick="setAudience(this,'students')">For students</button>
+  </div>
+  <div class="finding-text" id="findingText">The gems and jewellery sector generated 36.9% more nominal gross value added between 2021–22 and 2023–24, a period coinciding with significant export growth. However, real wages per registered factory worker declined by 5.9% after inflation adjustment. Labour's share of gross value added fell from 43.1% to 40.8% and has not returned to its pre-growth baseline. Workers captured only 34.3% of incremental value — an 8.8 percentage point shortfall. This pattern is consistent with domestic labour institutions — piece-rate employment structures, contractor-mediated employment, and incomplete Labour Code implementation — failing to transmit export-driven gains to workers.</div>
+  <button class="ask-btn" onclick="window.open('https://claude.ai','_blank')">Ask: what institutional features explain this gap? ↗</button>
+</div>
+
+<div class="footnote">
+  Data: Annual Survey of Industries (ASI), National Statistical Office — Table 1 and Table 3, NIC 2008. Real wages deflated by CPI-IW, Labour Bureau, Ministry of Labour and Employment. Methodology fully documented and replicable. Coverage: registered factory sector only (~274,000 registered workers in gems and jewellery; estimated 5 million total including informal workforce). Export growth context noted as background; domestic labour institution performance is the subject of measurement. Last updated: ASI 2023–24. Next update: ASI 2024–25, expected late 2026.
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+var findings={
+  policy:"The gems and jewellery sector generated 36.9% more nominal gross value added between 2021\u201322 and 2023\u201324, a period coinciding with significant export growth. However, real wages per registered factory worker declined by 5.9% after inflation adjustment. Labour's share of gross value added fell from 43.1% to 40.8% and has not returned to its pre-growth baseline. Workers captured only 34.3% of incremental value \u2014 an 8.8 percentage point shortfall. This pattern is consistent with domestic labour institutions \u2014 piece-rate employment structures, contractor-mediated employment, and incomplete Labour Code implementation \u2014 failing to transmit export-driven gains to workers.",
+  press:"India's jewellery industry boomed in 2021\u201324 \u2014 but the workers making the jewellery earned less in real terms by the end of it than at the start. Of every extra rupee the industry earned during the growth period, workers got 34 paise. Business owners got 66. The industry grew by 37%. Workers' real wages fell by 6%. The problem is not any trade agreement. It is that India's domestic labour institutions were not built to pass export gains down to the people doing the work.",
+  students:"Think of it like a pizza factory that started selling a lot more pizzas. The factory made 37% more money. But the workers who made the pizzas are actually taking home less than before \u2014 because prices for food and rent went up faster than their wages did. And of the extra money the factory earned, workers only got 34 paise out of every rupee. The owner kept 66. The factory got bigger. The workers' slice got smaller."
+};
+
+function setSector(el,key){
+  if(el.classList.contains('pending'))return;
+  document.querySelectorAll('.sector-row .chip').forEach(function(c){c.classList.remove('active')});
+  el.classList.add('active');
+}
+
+function setAudience(el,key){
+  document.querySelectorAll('.aud-btn').forEach(function(b){b.classList.remove('active')});
+  el.classList.add('active');
+  document.getElementById('findingText').textContent=findings[key];
+}
+
+window.addEventListener('load',function(){
+  new Chart(document.getElementById('shareChart').getContext('2d'),{
+    type:'line',
+    data:{
+      labels:['2021\u201322','2022\u201323','2023\u201324'],
+      datasets:[
+        {label:'Labour share %',data:[43.1,39.5,40.8],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.08)',borderWidth:2.5,pointRadius:5,pointBackgroundColor:'#1D9E75',tension:0.3,fill:true},
+        {label:'Baseline 43.1%',data:[43.1,43.1,43.1],borderColor:'#E24B4A',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.raw.toFixed(1)+'%'}}}},scales:{y:{min:37,max:46,grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#999',font:{size:11},callback:function(v){return v+'%'}}},x:{grid:{display:false},ticks:{color:'#999',font:{size:11}}}}}
+  });
+
+  new Chart(document.getElementById('wageChart').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['2021\u201322','2022\u201323','2023\u201324'],
+      datasets:[
+        {label:'Nominal %',data:[0,-0.6,4.3],backgroundColor:'rgba(29,158,117,0.6)',borderRadius:3},
+        {label:'Real %',data:[0,-5.8,-5.9],backgroundColor:'rgba(226,75,74,0.6)',borderRadius:3}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#999',font:{size:11},callback:function(v){return v+'%'}}},x:{grid:{display:false},ticks:{color:'#999',font:{size:10}}}}}
+  });
+
+  new Chart(document.getElementById('splitChart').getContext('2d'),{
+    type:'doughnut',
+    data:{labels:['Workers','Capital'],datasets:[{data:[34.3,65.7],backgroundColor:['#1D9E75','#D3D1C7'],borderWidth:0,hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.label+': '+c.raw.toFixed(1)+'%'}}}}}
+  });
+});
+</script>
 </body>
 </html>
